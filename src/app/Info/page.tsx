@@ -8,9 +8,7 @@ import Skill from "../../components/Skill/index";
 import SkillHeader from "../../components/Skill/SkillHeader/index";
 import ArrowButton from "../../components/ArrowButton/index";
 
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
+export default function Page() {
   const [navHovered, setNavHovered] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [skillHovered, setSkillHovered] = useState(false);
@@ -229,6 +227,4 @@ const page: FC<pageProps> = ({}) => {
       </div>
     </motion.div>
   );
-};
-
-export default page;
+}

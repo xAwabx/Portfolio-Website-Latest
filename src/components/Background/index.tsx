@@ -4,7 +4,6 @@ import {
   useTransform,
   motion,
   useMotionValue,
-  useMotionValueEvent,
   useMotionTemplate,
 } from "framer-motion";
 import { FC, useEffect } from "react";
