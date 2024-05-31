@@ -9,7 +9,6 @@ import {
 } from "framer-motion";
 import { FC, useEffect, useRef, useState } from "react";
 
-
 import Image from "next/image";
 import { CgArrowLongRight } from "react-icons/cg";
 
@@ -101,7 +100,7 @@ const Index: FC<IndexProps> = ({
         transform,
         transformStyle: "preserve-3d",
       }}
-      className={`h-[34vh] w-[34vh] sm:h-[500px] sm:w-[500px] cursor-pointer flex justify-center items-end text-4xl text-center text-gray-200 bg-[#1b1b1b] sm:bg-[#292929] rounded-sm opacity-100 shadow-2xl z-20`}
+      className={`h-[34vh] w-[34vh] sm:h-[51vh] sm:w-[51vh] cursor-pointer flex justify-center items-end text-4xl text-center text-gray-200 bg-[#1b1b1b] sm:bg-[#292929] rounded-sm opacity-100 shadow-2xl z-20`}
     >
       <motion.p
         ref={ref1}
@@ -132,7 +131,7 @@ const Index: FC<IndexProps> = ({
           transformStyle: "preserve-3d",
           transform: "translateZ(50px)",
         }}
-        className="h-[30vh] w-[30vh] sm:h-[450px] sm:w-[450px] z-30 top-0 left-0 m-auto opacity-80 rounded-md"
+        className="h-[30vh] w-[30vh] sm:h-[46vh] sm:w-[46vh] z-30 top-0 left-0 m-auto opacity-80 rounded-md"
         alt={""}
       ></Image>
       {/* cover for when it is shown */}
@@ -144,7 +143,7 @@ const Index: FC<IndexProps> = ({
           transformStyle: "preserve-3d",
           transform: "translateZ(50px) translateY(61%) translateX(-50%)",
         }}
-        className="h-[30vh] w-[30vh] sm:h-[450px] sm:w-[450px] absolute bg-red-800 z-[100] top-[-50%] left-[50%] m-auto opacity-100"
+        className="h-[30vh] w-[30vh] sm:h-[46vh] sm:w-[46vh] absolute bg-red-800 z-[100] top-[-50%] left-[50%] m-auto opacity-100"
       />
       {/* <DiReact className="absolute top-4 left-0 z-50" />
       <DiJsBadge className="absolute left-5 top-4 z-50" />
