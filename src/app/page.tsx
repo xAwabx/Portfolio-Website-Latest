@@ -1,113 +1,242 @@
-import Image from "next/image";
+"use client";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Card from "../components/Card/index";
+import NavButton from "../components/NavButton/index";
+import NavButtonMenu from "../components/NavButtonMenu/index";
+import Background from "../components/Background/index";
+import ArrowButton from "../components/ArrowButton/index";
+import chat from "../images/Chat.jpg";
+import group from "../images/Group.jpg";
+import todo from "../images/Todo.jpg";
+import ContactPopup from "../components/ContactPopUp/index";
+import data from "../images/data.jpg";
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const { scrollYProgress } = useScroll();
+  const [color, setColor] = useState(["#000000"]);
+  const [textColor, setTextColor] = useState(["#Ffffff"]);
+  const [navHovered, setNavHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [contactOpened, setContactOpened] = useState<boolean>(false);
+  const [translate, setTranslate] = useState(false);
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    setRender(true);
+  }, []);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // console.log(latest);
+    if (latest > 0.1 && latest < 0.9) {
+      setScrolled(true);
+      // console.log(scrolled);
+    } else {
+      setScrolled(false);
+      // console.log(scrolled);
+    }
+    if (latest === 1) {
+      // console.log("reset now");
+      window.scrollTo(0, 0);
+    }
+  });
+
+  const projects = [
+    {
+      text: "CHAT APP",
+      desc: "Real-time chat application that I designed and developed using TypeScript, Next.js, Pusher, Firebase, and Tailwind CSS. This dynamic platform enables you to effortlessly add and remove friends, send friend requests, and engage in seamless conversations within your personalized chatroom.",
+      top: -10,
+      left: 67,
+      color: "#2b0000",
+      pic: chat,
+    },
+    {
+      text: "TALLY APP",
+      desc: "Create, edit, and manage groups seamlessly on a platform developed using the MERN Stack. Authenticated through Firebase, users can efficiently collaborate, tallying the hours spent collectively on specific tasks. Additionally, users can easily add others to their groups, enhancing the collaborative experience.",
+      top: -15,
+      left: 10,
+      color: "#2b0000",
+      pic: group,
+    },
+    {
+      text: "TODO APP",
+      desc: "A user-friendly web application designed to help you effortlessly manage your to-do list. Developed using the powerful MERN stack, this platform ensures seamless organization and tracking of tasks, providing a streamlined and efficient task management solution.",
+      top: -20,
+      left: 65,
+      color: "#2b0000",
+      pic: todo,
+    },
+    {
+      text: "DATA EXTRACTION",
+      desc: "A Python automation script that efficiently extracts valuable real estate data from a website and inputs it into a spreadsheet.",
+      top: -15,
+      left: 14,
+      color: "#2b0000",
+      pic: data,
+    },
+    // { text: "", top: -20, left: 70, color: "#202020" },
+  ];
+
+  const nav = [
+    { name: "Projects", route: "/" },
+    { name: "Information", route: "/Info" },
+    { name: "Contact", route: "" },
+  ];
+  const navsm = [
+    { name: "Menu", route: "" },
+    { name: "Projects", route: "/" },
+    { name: "Information", route: "/Info" },
+    { name: "Contact", route: "" },
+  ];
+
+  const socials = [
+    {
+      text: "Instagram",
+      pos: [20, 30],
+      link: "https://www.instagram.com/awab_ghouri/",
+    },
+    {
+      text: "Linkedin",
+      pos: [170, 30],
+      link: "https://www.linkedin.com/in/awab-saghir-a8a1a7245/",
+    },
+    {
+      text: "GitHub",
+      pos: [320, 30],
+      link: "https://github.com/xAwabx",
+    },
+  ];
+  const transitionRef = useRef<HTMLDivElement>(null);
+
+  return render ? (
+    <div className="bg-black">
+      {/* transition div */}
+      <motion.div
+        initial={{ top: "100vh" }}
+        id="transitionDiv"
+        ref={transitionRef}
+        className="fixed left-0 h-[100vh] w-[100vw] bg-red-900 z-[100]"
+      >
+        <div className="flex justify-center items-center h-full w-full">
+          <h1 className="text-[10vw] sm:text-[20vh] text-center ">
+            INFORMATION
+          </h1>
+        </div>
+      </motion.div>
+      <ContactPopup
+        contactOpen={contactOpened}
+        setContactOpened={setContactOpened}
+      />
+      <div
+        className={`${
+          contactOpened
+            ? "pointer-events-none overscroll-none"
+            : "pointer-events-auto"
+        }`}
+      >
+        <motion.div
+          animate={{ backgroundColor: isHovered ? color : color }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className={`h-[100vh] w-[100vw] fixed flex flex-col p-7  transform-scale ease-out`}
+        >
+          <Background isHovered={isHovered} />
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.5, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className={`text-center absolute bottom-[8.5vh] sm:bottom-4 left-[50%] translate-x-[-50%] pointer-events-none z-100 text-white text-xl`}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            SCROLL
+          </motion.h1>
+          <div className="w-full flex flex-row sm:justify-normal  sm:gap-[4vw]  justify-evenly sm:items-start">
+            {socials.map((desc, index) => {
+              return (
+                <ArrowButton
+                  key={index}
+                  i={index}
+                  text={desc.text}
+                  pos={desc.pos}
+                  link={desc.link}
+                />
+              );
+            })}
+
+            <motion.h1
+              initial={{
+                y: -25,
+                opacity: 0,
+                translateX: window.innerWidth < 640 ? "50%" : "0",
+              }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                transition: { type: "linear", duration: 0.5 },
+              }}
+              className="text-white text-[14px] hidden sm:block absolute bottom-[2vh] right-[2vw] opacity-50 "
+            >
+              © Muhammad Awab 2024
+            </motion.h1>
+          </div>
+        </motion.div>
+        {/* navbar for lg */}
+        <motion.div
+          exit={{ y: 25, opacity: 0 }}
+          className="sm:hidden fixed top-7 left-7 h-[4vh] flex flex-row bg-pink z-50"
+        >
+          {navsm.map((item, i) => {
+            return (
+              <NavButtonMenu
+                key={i}
+                translate={translate}
+                setTranslate={setTranslate}
+                text={item.name}
+                route={item.route}
+                index={i}
+                cardHovered={isHovered}
+                setContactOpened={setContactOpened}
+              />
+            );
+          })}
+        </motion.div>
+        {/* navbar for sm */}
+        <motion.div
+          exit={{ y: 25, opacity: 0 }}
+          className="hidden sm:fixed top-7 left-7 h-[4vh] sm:flex flex-row bg-pink z-50"
+        >
+          {nav.map((item, i) => {
+            return (
+              <NavButton
+                key={i}
+                text={item.name}
+                route={item.route}
+                index={i}
+                cardHovered={isHovered}
+                navHovered={navHovered}
+                setNavHovered={setNavHovered}
+                setContactOpened={setContactOpened}
+              />
+            );
+          })}
+        </motion.div>
+        <div className="bg-red-500 h-100vh fixed z-[19] " />
+        <div className="min-h-screen flex flex-col  justify-center gap-[42vh] sm:gap-0 sm:justify-normal items-center sm:items-start h-full bg-black py-[120vh] scroll-smooth z-0 overflow-x-hidden ">
+          {projects.map((project, i) => {
+            return (
+              <Card
+                key={i}
+                index={i}
+                project={project}
+                setColor={setColor}
+                setTextColor={setTextColor}
+                setIsHovered={setIsHovered}
+              />
+            );
+          })}
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
+  ) : (
+    <div className="bg-black" />
   );
 }
