@@ -8,11 +8,11 @@ import {
 } from "framer-motion";
 import { FC, useEffect } from "react";
 
-interface indexProps {
+interface IndexProps {
   isHovered: boolean;
 }
 
-const index: FC<indexProps> = ({ isHovered }) => {
+const Index: FC<IndexProps> = ({ isHovered }) => {
   const { scrollYProgress } = useScroll();
 
   const s = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [1, 0.8, 0.8, 1]);
@@ -113,4 +113,4 @@ const index: FC<indexProps> = ({ isHovered }) => {
   );
 };
 
-export default index;
+export default Index;

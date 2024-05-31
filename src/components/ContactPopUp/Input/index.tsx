@@ -1,14 +1,14 @@
 import { FC, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-interface indexProps {
+interface IndexProps {
   text: string;
   type: string;
   value: any;
   setValue: any;
 }
 
-const InputC: FC<indexProps> = ({ text, type, value, setValue }) => {
+const InputC: FC<IndexProps> = ({ text, type, value, setValue }) => {
   const [isFocused, setIsFocused] = useState<Boolean>();
   const ref = useRef<HTMLInputElement>(null);
 

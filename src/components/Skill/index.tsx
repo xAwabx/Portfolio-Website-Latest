@@ -1,14 +1,14 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 
-interface indexProps {
+interface IndexProps {
   name: string;
   percentage: number;
   setSkillHovered: any;
   SkillHovered: any;
 }
 
-const index: FC<indexProps> = ({
+const Index: FC<IndexProps> = ({
   name,
   percentage,
   SkillHovered,
@@ -56,4 +56,4 @@ const index: FC<indexProps> = ({
   );
 };
 
-export default index;
+export default Index;

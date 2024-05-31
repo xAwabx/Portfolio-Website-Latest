@@ -2,14 +2,14 @@ import { FC } from "react";
 import { CgArrowLongRight } from "react-icons/cg";
 import { motion } from "framer-motion";
 
-interface indexProps {
+interface IndexProps {
   text: string;
   pos?: number[];
   link: string;
   i: number;
 }
 
-const index: FC<indexProps> = ({ text, pos, link, i }) => {
+const Index: FC<IndexProps> = ({ text, pos, link, i }) => {
   return (
     <motion.a
       initial={{ y: -25, opacity: 0 }}
@@ -36,4 +36,4 @@ const index: FC<indexProps> = ({ text, pos, link, i }) => {
   );
 };
 
-export default index;
+export default Index;

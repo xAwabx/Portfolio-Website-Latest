@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-interface indexProps {
+interface IndexProps {
   translate: boolean;
   setTranslate: any;
   text: string;
@@ -13,7 +13,7 @@ interface indexProps {
   setContactOpened: any;
 }
 
-const index: FC<indexProps> = ({
+const Index: FC<IndexProps> = ({
   translate,
   setTranslate,
   text,
@@ -105,4 +105,4 @@ const index: FC<indexProps> = ({
   );
 };
 
-export default index;
+export default Index;

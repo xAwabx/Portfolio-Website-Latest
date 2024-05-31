@@ -1,6 +1,6 @@
 "use client";
 import { FC, useRef, useState } from "react";
-import InputC from "./Input/index";
+import InputC from "./Input/";
 import { motion } from "framer-motion";
 import { RxCross1 } from "react-icons/rx";
 import Tag from "./Chip";
@@ -8,12 +8,12 @@ import { CgArrowLongRight } from "react-icons/cg";
 import emailjs from "@emailjs/browser";
 import { setTimeout } from "timers";
 
-interface indexProps {
+interface IndexProps {
   contactOpen: boolean;
   setContactOpened: any;
 }
 
-const ContactPopUp: FC<indexProps> = ({ contactOpen, setContactOpened }) => {
+const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
   const [isFocusedMessage, setIsFocusedMessage] = useState<boolean>();
   const [submitHovered, setSubmitHovered] = useState<boolean>();
   const [email, setEmail] = useState<string>("");

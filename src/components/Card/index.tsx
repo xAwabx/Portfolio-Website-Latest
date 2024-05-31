@@ -8,16 +8,12 @@ import {
   useTransform,
 } from "framer-motion";
 import { FC, useEffect, useRef, useState } from "react";
-import { DiReact } from "react-icons/di";
-import { DiJsBadge } from "react-icons/di";
-import { BiLogoTypescript } from "react-icons/bi";
-import { DiHtml5 } from "react-icons/di";
-import { DiCss3 } from "react-icons/di";
+
 
 import Image from "next/image";
 import { CgArrowLongRight } from "react-icons/cg";
 
-interface indexProps {
+interface IndexProps {
   project: {
     text: string;
     top: number;
@@ -32,7 +28,7 @@ interface indexProps {
   setTextColor: any;
 }
 
-const index: FC<indexProps> = ({
+const Index: FC<IndexProps> = ({
   index,
   project,
   setColor,
@@ -171,4 +167,4 @@ const index: FC<indexProps> = ({
   );
 };
 
-export default index;
+export default Index;

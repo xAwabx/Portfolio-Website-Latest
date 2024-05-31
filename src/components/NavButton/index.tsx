@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { motion, animate, useMotionValueEvent, useScroll } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-interface indexProps {
+interface IndexProps {
   text: string;
   index: number;
   cardHovered: any;
@@ -12,7 +12,7 @@ interface indexProps {
   setContactOpened: any;
 }
 
-const index: FC<indexProps> = ({
+const Index: FC<IndexProps> = ({
   text,
   index,
   cardHovered,
@@ -108,4 +108,4 @@ const index: FC<indexProps> = ({
   );
 };
 
-export default index;
+export default Index;

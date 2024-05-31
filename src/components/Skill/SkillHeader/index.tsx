@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 
-interface indexProps {
+interface IndexProps {
   text: string;
 }
 
-const index: FC<indexProps> = ({ text }) => {
+const Index: FC<IndexProps> = ({ text }) => {
   return (
     <div className="flex flex-col">
       <h1 className="text-white text-[6vh] flex-1">{text}</h1>
@@ -25,4 +25,4 @@ const index: FC<indexProps> = ({ text }) => {
   );
 };
 
-export default index;
+export default Index;

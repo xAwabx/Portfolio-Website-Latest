@@ -2,13 +2,13 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-interface indexProps {
+interface IndexProps {
   text: string;
   setSubject: any;
   subject: Array<string>;
 }
 
-const Tag: FC<indexProps> = ({ text, setSubject, subject }) => {
+const Tag: FC<IndexProps> = ({ text, setSubject, subject }) => {
   const [hover, setHover] = useState(false);
   const [clicked, setClicked] = useState(false);
   const ref = useRef(null);
