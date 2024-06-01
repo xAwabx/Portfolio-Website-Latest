@@ -184,18 +184,20 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row sm:justify-normal justify-evenly  sm:gap-[4vw] w-full">
-          {socials.map((desc, index) => {
-            return (
-              <ArrowButton
-                key={index}
-                i={index}
-                text={desc.text}
-                pos={desc.pos}
-                link={desc.link}
-              />
-            );
-          })}
+        <div className="flex flex-row sm:justify-between justify-evenly   w-full">
+          <div className="flex flex-row w-[20vw] gap-[4vw] ">
+            {socials.map((desc, index) => {
+              return (
+                <ArrowButton
+                  key={index}
+                  i={index}
+                  text={desc.text}
+                  pos={desc.pos}
+                  link={desc.link}
+                />
+              );
+            })}
+          </div>
 
           {transitionComp && (
             <motion.h1
@@ -209,7 +211,7 @@ export default function Page() {
                 opacity: 1,
                 transition: { type: "linear", duration: 0.5 },
               }}
-              className="text-white text-[14px] hidden sm:block absolute bottom-[-12.5vh] right-[2vw] opacity-50 "
+              className="text-white text-[14px] hidden sm:block relative  opacity-50 "
             >
               © Muhammad Awab 2024
             </motion.h1>
