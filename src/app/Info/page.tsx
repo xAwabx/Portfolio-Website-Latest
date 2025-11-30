@@ -2,7 +2,7 @@
 import { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import pic from "../../images/selfpic1.jpg";
+import pic from "../../images/me.jpg";
 import NavButton from "../../components/NavButton/index";
 import Skill from "../../components/Skill/index";
 import SkillHeader from "../../components/Skill/SkillHeader/index";
@@ -22,11 +22,13 @@ export default function Page() {
   const skills1 = [
     { name: "Python", percentage: 80 },
     { name: "JavaScript", percentage: 85 },
-    { name: "TypeScript", percentage: 70 },
-    { name: "Dart", percentage: 30 },
-    { name: "Node Js", percentage: 60 },
+    { name: "TypeScript", percentage: 85 },
     { name: "ReactJs", percentage: 90 },
-    { name: "NextJs", percentage: 85 },
+    { name: "NextJs", percentage: 90 },
+    { name: "Node Js", percentage: 60 },
+    { name: "Dart", percentage: 30 },
+    { name: "Flutter", percentage: 60 },
+    { name: "SQL", percentage: 70 },
   ];
   const skills2 = [
     { name: "ExpressJs", percentage: 80 },
@@ -36,6 +38,8 @@ export default function Page() {
     { name: "TailwindCSS", percentage: 90 },
     { name: "FramerMotion", percentage: 60 },
     { name: "REST API's", percentage: 90 },
+    { name: "Supabase", percentage: 90 },
+    { name: "ElectronJs", percentage: 80 },
   ];
   const socials = [
     {
@@ -119,7 +123,7 @@ export default function Page() {
                   isHovered ? "opacity-70 duration-300" : "opacity-100"
                 } w-full`}
               >
-                is a 17-year-old self taught programmer, currently enrolled in
+                is a 19 year old self taught programmer, currently enrolled in
                 college. His journey in the world of computers and technology
                 has been exciting, driven by a genuine passion for all things
                 digital.
