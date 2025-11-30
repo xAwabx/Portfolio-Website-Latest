@@ -9,17 +9,15 @@
   scroll-behavior: smooth;
 } */
 
-
 ::-webkit-scrollbar {
   display: none;
 }
 
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   color: rgb(0, 0, 0);
   background: rgb(255, 31, 31);
-
 }
-
 
 ::selection {
   color: rgb(0, 0, 0);

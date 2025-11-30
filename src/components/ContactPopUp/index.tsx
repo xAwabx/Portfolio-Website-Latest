@@ -1,29 +1,44 @@
 "use client";
-import { FC, useRef, useState } from "react";
-import InputC from "./Input/";
+import { FC, useEffect, useRef, useState } from "react";
+import { Input } from "./Input/";
 import { motion } from "framer-motion";
 import { RxCross1 } from "react-icons/rx";
 import Tag from "./Chip";
-import { CgArrowLongRight } from "react-icons/cg";
+import { CgArrowLongRight, CgSpinner } from "react-icons/cg";
 import emailjs from "@emailjs/browser";
-import { setTimeout } from "timers";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 interface IndexProps {
   contactOpen: boolean;
   setContactOpened: any;
 }
 
+const contactFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  message: z.string().min(1, "Message is required"),
+  subject: z.array(z.string()).min(1, "At least one subject is required"),
+});
+
 const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
   const [isFocusedMessage, setIsFocusedMessage] = useState<boolean>();
   const [submitHovered, setSubmitHovered] = useState<boolean>();
-  const [email, setEmail] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const [subject, setSubject] = useState<Array<string>>([]);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
-  const [buttonDisable, setButtonDisable] = useState<boolean>(false);
-  const [errMessage, setErrMessage] = useState<string>("");
+
+  const form = useForm({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+      subject: [],
+    },
+  });
+
+  const { handleSubmit, formState, setValue } = form;
 
   const messageref = useRef<HTMLTextAreaElement>(null);
 
@@ -39,54 +54,29 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
   ];
 
   const onSubmit = async () => {
-    const showERR = (message?: string) => {
-      message ? setErrMessage(message) : setErrMessage("");
-      setError(true);
-      setTimeout(() => {
-        setError(false);
-      }, 3000);
-    };
-    const showSUCC = () => {
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    };
-    const clearFields = () => {
-      setName("");
-      setEmail("");
-      setMessage("");
-      setSubject([]);
-    };
+    const data = form.getValues();
 
-    const data = {
-      name: name,
-      email: email,
-      message: message,
-      subject: subject,
-    };
-    if (message != "" && email != "" && name != "") {
-      try {
-        setButtonDisable(true);
-        const response = await emailjs.send(
-          process.env.NEXT_PUBLIC_SERVICE_ID!,
-          process.env.NEXT_PUBLIC_TEMPLETE_ID!,
-          data,
-          process.env.NEXT_PUBLIC_PUBLIC_KEY!
-        );
-        console.log("SUCCESS: ", response.status);
-        if (response.status === 200) {
-          showSUCC();
-          clearFields();
-        }
-      } catch (error) {
-        console.log("ERROR", error);
-        showERR();
-        clearFields();
+    try {
+      const response = await emailjs.send(
+        process.env.NEXT_PUBLIC_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_TEMPLETE_ID!,
+        data,
+        process.env.NEXT_PUBLIC_PUBLIC_KEY!
+      );
+      console.log("SUCCESS: ", response.status);
+      if (response.status === 200) {
+        toast.success("Message sent successfully!");
+        form.reset();
       }
-    } else {
-      showERR("please enter all the fields.");
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+      console.log("ERROR", error);
     }
-    setButtonDisable(false);
   };
+
+  useEffect(() => {
+    setValue("subject", subject);
+  }, [subject]);
 
   return (
     <motion.div
@@ -97,20 +87,6 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
       className="shadow-lg  shadow-black fixed z-[200] h-[100vh] w-[100vw] sm:w-[70vh]  left-[100%] bg-white bg-opacity-70
      backdrop-blur-md pt-[10vh] sm:pt-[7%] flex flex-col p-[30px] text-center items-center gap-[6%] tracking-tight"
     >
-      {success && (
-        <p
-          className={`text-green-700 absolute top-7 left-1/2 translate-x-[-50%]`}
-        >
-          Message was sent successfully.
-        </p>
-      )}
-      {error && (
-        <p
-          className={`text-red-500 absolute top-7 left-1/2 translate-x-[-50%]`}
-        >
-          {errMessage ? errMessage : "Something went wrong try again later."}
-        </p>
-      )}
       <RxCross1
         onClick={() => {
           setContactOpened(false);
@@ -120,20 +96,35 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
       />
       {/* NAME INPUT */}
 
-      <InputC text="your name" type="text" value={name} setValue={setName} />
+      <Input
+        label="your name"
+        type="text"
+        labelClassName={`${formState.errors.name ? "text-red-600" : ""}`}
+        value={form.watch("name")}
+        onChange={(e) => {
+          setValue("name", e.target.value);
+        }}
+      />
 
       {/* EMAIL INPUT */}
 
-      <InputC
-        text="your email"
+      <Input
+        label="your email"
         type="email"
-        value={email}
-        setValue={setEmail}
+        labelClassName={`${formState.errors.email ? "text-red-600" : ""}`}
+        value={form.watch("email")}
+        onChange={(e) => {
+          setValue("email", e.target.value);
+        }}
       />
 
       {/* SUBJECT CHIPS */}
       <div className="w-full">
-        <h1 className="text-[3vh] text-left mb-4 text-black pointer-events-none">
+        <h1
+          className={`text-[3vh] text-left mb-4 text-black pointer-events-none ${
+            formState.errors.subject ? "text-red-600" : ""
+          }`}
+        >
           Subject
         </h1>
         <div className="h-[17vh] sm:h-[10vh] flex flex-wrap gap-1 sm:gap-4 align-middle justify-items-center">
@@ -167,14 +158,16 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
                 ? "50%"
                 : "100%",
           }}
-          className="absolute  text-[3vh] text-left text-black font pointer-events-none"
+          className={`absolute  ${
+            formState.errors.message ? "text-red-600" : ""
+          } text-[3vh] text-left text-black font pointer-events-none`}
         >
           Message
         </motion.h1>
         <textarea
-          value={message}
+          value={form.watch("message")}
           onChange={(e) => {
-            setMessage(e.target.value);
+            setValue("message", e.target.value);
           }}
           ref={messageref}
           onFocus={() => {
@@ -188,8 +181,8 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
       </div>
       {/* submit button  */}
       <button
-        disabled={buttonDisable}
-        onClick={onSubmit}
+        disabled={form.formState.isSubmitting}
+        onClick={handleSubmit(onSubmit)}
         onMouseEnter={() => {
           setSubmitHovered(true);
         }}
@@ -197,14 +190,20 @@ const ContactPopUp: FC<IndexProps> = ({ contactOpen, setContactOpened }) => {
           setSubmitHovered(false);
         }}
         className={`rounded-full h-min cursor-pointer w-fit text-[2vh]  text-white backdrop-blur-md ${
-          !buttonDisable
+          !form.formState.isSubmitting
             ? !submitHovered
               ? "bg-[#000000] bg-opacity-90"
               : "bg-[#222222] bg-opacity-60"
             : "cursor-not-allowed bg-gray-500"
         } transition-colors ease-in-out duration-300 px-[14px] py-[8px]`}
       >
-        Submit
+        {form.formState.isSubmitting ? (
+          <p className=" flex gap-2 items-center">
+            Submitting <CgSpinner className="animate-spin" />
+          </p>
+        ) : (
+          "Submit"
+        )}
       </button>
 
       {/* Email and Instagram Arrow Buttons */}

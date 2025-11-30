@@ -94,7 +94,7 @@ export default function Home() {
     {
       text: "Instagram",
       pos: [20, 30],
-      link: "https://www.instagram.com/awab_ghouri/",
+      link: "https://www.instagram.com/awab_saghir/",
     },
     {
       text: "Linkedin",

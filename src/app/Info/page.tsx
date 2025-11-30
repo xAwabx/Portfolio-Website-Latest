@@ -41,7 +41,7 @@ export default function Page() {
     {
       text: "Instagram",
       pos: [20, -170],
-      link: "https://www.instagram.com/awab_ghouri/",
+      link: "https://www.instagram.com/awab_saghir/",
     },
     {
       text: "Linkedin",
